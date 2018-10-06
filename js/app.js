@@ -105,65 +105,84 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- let deckElement = document.getElementById('deck')
- let movesElement = document.getElementById('moves')
+// ELEMENTS TO MANIPULATE
+let deckElement = document.getElementById('deck')
+let movesElement = document.getElementById('moves')
+let restartElement = document.getElementById('restart')
 
- let openCards = []
- let moves = 0
- let correctMatches
 
- function setUpBoard() {
- 	const cards = shuffle(generateListOfCards())
- 	cards.map(card => {
- 		let cardElement = document.createElement('li')
- 		cardElement.classList.add('card')
+let openCards = []
+let moves = 0
+let correctMatches
 
- 		cardElement.appendChild(card.toHTML())
- 		deckElement.appendChild(cardElement)
- 	})
+function resetGame() {
+	moves = correctMatches = 0
+	movesElement.textContent = movesElement
+	openCards = []
 
- 	movesElement.textContent = moves
- 	correctMatches = cards.length
- }
+	while (deckElement.firstChild) {
+  		deckElement.removeChild(deckElement.firstChild);
+	}
+	setUpBoard()
+}
 
- deckElement.addEventListener('click', (e) => {
- 	 e.preventDefault()
- 	let cardElement = e.target
+function setUpBoard() {
+	const cards = shuffle(generateListOfCards())
+	cards.map(card => {
+		let cardElement = document.createElement('li')
+		cardElement.classList.add('card')
 
- 	// Make sure that a list element is clicked and add to the openCards
- 	if (cardElement.nodeName === 'LI' && openCards.length < 2 &&
- 			!cardElement.classList.contains('show') &&
- 			!cardElement.classList.contains('open')) {
-		cardElement.classList.add('show')
-		cardElement.classList.add('open')
-		openCards.push(cardElement)
- 	}
+		cardElement.appendChild(card.toHTML())
+		deckElement.appendChild(cardElement)
+	})
 
- 	// Compare the cards
- 	if (openCards.length == 2) {
- 		const firstCard = openCards[0]
- 		const secondCard = openCards[1]
+	movesElement.textContent = moves
+	correctMatches = cards.length
+}
 
- 		if (firstCard.firstChild.getAttribute('type') === secondCard.firstChild.getAttribute('type')) {
- 			correctMatches += openCards.length
- 			firstCard.classList.remove('open')
- 			firstCard.classList.add('match')
+restartElement.addEventListener('click', (e) => {
+	e.preventDefault()
+	resetGame()
+})
+
+deckElement.addEventListener('click', (e) => {
+	 e.preventDefault()
+	let cardElement = e.target
+
+	// Make sure that a list element is clicked and add to the openCards
+	if (cardElement.nodeName === 'LI' && openCards.length < 2 &&
+			!cardElement.classList.contains('show') &&
+			!cardElement.classList.contains('open')) {
+	cardElement.classList.add('show')
+	cardElement.classList.add('open')
+	openCards.push(cardElement)
+	}
+
+	// Compare the cards
+	if (openCards.length == 2) {
+		const firstCard = openCards[0]
+		const secondCard = openCards[1]
+
+		if (firstCard.firstChild.getAttribute('type') === secondCard.firstChild.getAttribute('type')) {
+			correctMatches += openCards.length
+			firstCard.classList.remove('open')
+			firstCard.classList.add('match')
+			secondCard.classList.remove('open')
+			secondCard.classList.add('match')
+		} else {
+			setTimeout(() => {
+				firstCard.classList.remove('open')
+ 			firstCard.classList.remove('show')
  			secondCard.classList.remove('open')
- 			secondCard.classList.add('match')
- 		} else {
- 			setTimeout(() => {
- 				firstCard.classList.remove('open')
-	 			firstCard.classList.remove('show')
-	 			secondCard.classList.remove('open')
-	 			secondCard.classList.remove('show')
- 			}, 500)
- 		}
+ 			secondCard.classList.remove('show')
+			}, 500)
+		}
 
- 		openCards = []
- 		movesElement.textContent = ++moves
- 	}
+		openCards = []
+		movesElement.textContent = ++moves
+	}
 
- })
+})
 
 
 setUpBoard()
