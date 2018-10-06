@@ -1,3 +1,63 @@
+/**
+
+	Author: Erika Miguel
+
+
+	All code in this file, except the shuffle function,
+	has been written by the author.
+*/
+
+/**
+
+CONSTANTS
+
+*/
+// Card types
+const ANCHOR = 'anchor'
+const BICYCLE = 'bicycle'
+const BOLT = 'bolt'
+const BOMB = 'bomb'
+const CUBE = 'cube'
+const DIAMOND = 'diamond'
+const LEAF = 'leaf'
+const PLANE = 'plane'
+
+const CARD_TYPES = [ ANCHOR, BICYCLE, BOLT, BOMB, CUBE, DIAMOND, LEAF, PLANE ]
+
+// Card to CSS mappings
+const cardCssTypes = {
+	[ANCHOR]: 'fa-anchor',
+	[BICYCLE]: 'fa-bicycle',
+	[BOLT]: 'fa-bolt',
+	[BOMB]: 'fa-bomb',
+	[CUBE]: 'fa-cube',
+	[DIAMOND]: 'fa-diamond',
+	[LEAF]: 'fa-leaf',
+	[PLANE]: 'fa-paper-plane-o'
+}
+
+/**
+
+CLASSES
+
+*/
+class MemoryCard {
+	constructor(type) {
+		this.type = type
+		this.cssStyle = cardCssTypes[type]
+	}
+}
+
+function generateListOfCards() {
+	let cards = []
+	CARD_TYPES.map(type => {
+		cards.push(new MemoryCard(type))
+		cards.push(new MemoryCard(type))
+	})
+	return cards
+}
+
+
 /*
  * Create a list that holds all of your cards
  */
