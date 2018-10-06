@@ -45,6 +45,13 @@ class MemoryCard {
 	constructor(type) {
 		this.type = type
 		this.cssStyle = cardCssTypes[type]
+		this.toHTML = () => {
+			let iconElement = document.createElement('i')
+	 		iconElement.setAttribute('type', this.type)
+	 		iconElement.classList.add('fa')
+	 		iconElement.classList.add(this.cssStyle)
+	 		return iconElement
+		}
 	}
 }
 
@@ -99,6 +106,8 @@ function shuffle(array) {
  */
 
  let deckElement = document.getElementById('deck')
+ let openCards = []
+ let correctMatches
 
  function setUpBoard() {
  	const cards = shuffle(generateListOfCards())
@@ -106,25 +115,51 @@ function shuffle(array) {
  		let cardElement = document.createElement('li')
  		cardElement.classList.add('card')
 
- 		let iconElement = document.createElement('i')
- 		iconElement.classList.add('fa')
- 		iconElement.classList.add(card.cssStyle)
- 		cardElement.appendChild(iconElement)
+ 		cardElement.appendChild(card.toHTML())
  		deckElement.appendChild(cardElement)
  	})
+ 	correctMatches = cards.length
  }
 
  deckElement.addEventListener('click', (e) => {
- 	// TODO: remomve this for the real game
- 	e.preventDefault()
+ 	 e.preventDefault()
  	let cardElement = e.target
-	cardElement.classList.add('show')
-	cardElement.classList.add('open')
+
+ 	// Make sure that a list element is clicked and add to the openCards
+ 	if (cardElement.nodeName === 'LI' && openCards.length < 2 &&
+ 			!cardElement.classList.contains('show') &&
+ 			!cardElement.classList.contains('open')) {
+		cardElement.classList.add('show')
+		cardElement.classList.add('open')
+		openCards.push(cardElement)
+ 	}
+
+ 	// Compare the cards
+ 	if (openCards.length == 2) {
+ 		const firstCard = openCards[0]
+ 		const secondCard = openCards[1]
+
+ 		if (firstCard.firstChild.getAttribute('type') === secondCard.firstChild.getAttribute('type')) {
+ 			correctMatches += openCards.length
+ 			firstCard.classList.remove('open')
+ 			firstCard.classList.add('match')
+ 			secondCard.classList.remove('open')
+ 			secondCard.classList.add('match')
+ 		} else {
+ 			setTimeout(() => {
+ 				firstCard.classList.remove('open')
+	 			firstCard.classList.remove('show')
+	 			secondCard.classList.remove('open')
+	 			secondCard.classList.remove('show')
+ 			}, 500)
+ 		}
+
+ 		openCards = []
+ 	}
+
  })
 
 
-
- setUpBoard()
-
+setUpBoard()
 
 
