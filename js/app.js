@@ -109,20 +109,31 @@ function shuffle(array) {
 let deckElement = document.getElementById('deck')
 let movesElement = document.getElementById('moves')
 let restartElement = document.getElementById('restart')
+let timerElement = document.getElementById('timer')
 
 
 let openCards = []
-let moves = 0
+let moves = seconds = minutes = hours = 0
+let firstClick = false
 let correctMatches
+let t
+
+// HELPER FUNCTIONS
 
 function resetGame() {
 	moves = correctMatches = 0
 	movesElement.textContent = movesElement
 	openCards = []
 
+	// Remove all elements from the deck
 	while (deckElement.firstChild) {
   		deckElement.removeChild(deckElement.firstChild);
 	}
+
+	// Reset timer
+	clearTimeout(t)
+	timerElement.textContent = "00:00:00"
+
 	setUpBoard()
 }
 
@@ -140,13 +151,44 @@ function setUpBoard() {
 	correctMatches = cards.length
 }
 
+
+// Add and time function from: https://jsfiddle.net/Daniel_Hug/pvk6p/
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+
+    timerElement.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
+
+function timer() {
+    t = setTimeout(add, 1000);
+}
+
+// EVENT LISTENERS
+
 restartElement.addEventListener('click', (e) => {
 	e.preventDefault()
 	resetGame()
 })
 
 deckElement.addEventListener('click', (e) => {
-	 e.preventDefault()
+	e.preventDefault()
+
+	// Set timer on fist click
+	if (!firstClick) {
+		timer()
+		firstClick = true
+	}
+
+	// Look at card element
 	let cardElement = e.target
 
 	// Make sure that a list element is clicked and add to the openCards

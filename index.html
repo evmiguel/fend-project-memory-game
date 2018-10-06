@@ -16,17 +16,24 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        	</ul>
+            <div class="left">
+            	<ul class="stars">
+            		<li><i class="fa fa-star"></i></li>
+            		<li><i class="fa fa-star"></i></li>
+            		<li><i class="fa fa-star"></i></li>
+            	</ul>
 
-        	<span id="moves" class="moves"></span> Moves
+            	<div>
+                    <span id="moves" class="moves"></span> Moves
+                </div>
+            </div>
 
-            <div id="restart" class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+            <div class="right">
+                <p id="timer" class="timer"><time>00:00:00</time></p>
+                <div id="restart" class="restart">
+                    <i class="fa fa-repeat"></i>
+                </div>
+            </div>
         </section>
 
         <ul id="deck" class="deck"></ul>
