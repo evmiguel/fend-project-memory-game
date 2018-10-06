@@ -106,7 +106,10 @@ function shuffle(array) {
  */
 
  let deckElement = document.getElementById('deck')
+ let movesElement = document.getElementById('moves')
+
  let openCards = []
+ let moves = 0
  let correctMatches
 
  function setUpBoard() {
@@ -118,6 +121,8 @@ function shuffle(array) {
  		cardElement.appendChild(card.toHTML())
  		deckElement.appendChild(cardElement)
  	})
+
+ 	movesElement.textContent = moves
  	correctMatches = cards.length
  }
 
@@ -155,6 +160,7 @@ function shuffle(array) {
  		}
 
  		openCards = []
+ 		movesElement.textContent = ++moves
  	}
 
  })
