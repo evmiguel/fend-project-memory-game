@@ -86,6 +86,7 @@ function shuffle(array) {
 }
 
 
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -96,3 +97,28 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ function setUpBoard() {
+ 	const cards = shuffle(generateListOfCards())
+ 	let deckElement = document.getElementById('deck')
+ 	cards.map(card => {
+ 		let cardElement = document.createElement('li')
+ 		cardElement.classList.add('card')
+
+ 		// TODO: remomve this for the real game
+ 		cardElement.classList.add('show')
+ 		cardElement.classList.add('open')
+
+
+ 		let iconElement = document.createElement('i')
+ 		iconElement.classList.add('fa')
+ 		iconElement.classList.add(card.cssStyle)
+ 		cardElement.appendChild(iconElement)
+ 		deckElement.appendChild(cardElement)
+ 	})
+ }
+
+ setUpBoard()
+
+
+
