@@ -98,17 +98,13 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+ let deckElement = document.getElementById('deck')
+
  function setUpBoard() {
  	const cards = shuffle(generateListOfCards())
- 	let deckElement = document.getElementById('deck')
  	cards.map(card => {
  		let cardElement = document.createElement('li')
  		cardElement.classList.add('card')
-
- 		// TODO: remomve this for the real game
- 		cardElement.classList.add('show')
- 		cardElement.classList.add('open')
-
 
  		let iconElement = document.createElement('i')
  		iconElement.classList.add('fa')
@@ -117,6 +113,16 @@ function shuffle(array) {
  		deckElement.appendChild(cardElement)
  	})
  }
+
+ deckElement.addEventListener('click', (e) => {
+ 	// TODO: remomve this for the real game
+ 	e.preventDefault()
+ 	let cardElement = e.target
+	cardElement.classList.add('show')
+	cardElement.classList.add('open')
+ })
+
+
 
  setUpBoard()
 
