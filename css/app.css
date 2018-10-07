@@ -77,8 +77,39 @@ h1 {
 
 .deck .card.match {
     cursor: default;
-    background: #02ccba;
     font-size: 33px;
+    background: #02ccba;
+}
+
+.deck .card.pulse {
+    animation: pulse 1.5s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.4, 1);
+  }
+
+  20% {
+    transform: scale(1, 1.2);
+  }
+
+  40% {
+    transform: scale(1.1, 1);
+  }
+
+  60% {
+    transform: scale(1, 1.1);
+  }
+
+  80% {
+    transform: scale(1.05, 1);
+  }
+
+  /* You could think of as "step 2" */
+  100% {
+    transform: scale(1);
+  }
 }
 
 /*

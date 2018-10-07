@@ -250,17 +250,20 @@ deckElement.addEventListener('click', (e) => {
 
 		if (firstCard.firstChild.getAttribute('type') === secondCard.firstChild.getAttribute('type')) {
 			correctMatches += openCards.length
-			firstCard.classList.remove('open')
+			firstCard.classList.add('pulse')
+			secondCard.classList.add('pulse')
+
 			firstCard.classList.add('match')
+			firstCard.classList.remove('open')
 			secondCard.classList.remove('open')
 			secondCard.classList.add('match')
 		} else {
 			setTimeout(() => {
 				firstCard.classList.remove('open')
- 			firstCard.classList.remove('show')
- 			secondCard.classList.remove('open')
- 			secondCard.classList.remove('show')
-			}, 500)
+	 			firstCard.classList.remove('show')
+	 			secondCard.classList.remove('open')
+	 			secondCard.classList.remove('show')
+				}, 500)
 		}
 
 		openCards = []
