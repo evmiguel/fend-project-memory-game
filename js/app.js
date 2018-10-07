@@ -110,10 +110,12 @@ let deckElement = document.getElementById('deck')
 let movesElement = document.getElementById('moves')
 let restartElement = document.getElementById('restart')
 let timerElement = document.getElementById('timer')
+let starsElement = document.getElementById('stars')
 
 
 let cards = openCards = []
 let moves = correctMatches = seconds = minutes = hours = 0
+let starsStart = 3
 let firstClick = false
 let t
 
@@ -147,7 +149,26 @@ function setUpBoard() {
 		deckElement.appendChild(cardElement)
 	})
 
+	setUpStars()
 	movesElement.textContent = moves
+}
+
+function setUpStars() {
+	[...Array(starsStart).keys()].map(i => {
+		let starElement = document.createElement("li")
+		let starIcon = document.createElement('i')
+		starIcon.classList.add('fa')
+		starIcon.classList.add('fa-star')
+		starElement.appendChild(starIcon)
+		starsElement.appendChild(starElement)
+	})
+}
+
+function removeStar() {
+	let numStars = starsElement.childNodes.length
+	if (numStars > 0) {
+		starsElement.removeChild(starsElement.firstChild)
+	}
 }
 
 
@@ -226,6 +247,9 @@ deckElement.addEventListener('click', (e) => {
 
 		openCards = []
 		movesElement.textContent = ++moves
+		if (moves % 8 === 0 ){
+			removeStar()
+		}
 	}
 
 	if (correctMatches > 0 && correctMatches === cards.length) {
