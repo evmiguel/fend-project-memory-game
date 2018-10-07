@@ -258,12 +258,32 @@ deckElement.addEventListener('click', (e) => {
 			secondCard.classList.remove('open')
 			secondCard.classList.add('match')
 		} else {
-			setTimeout(() => {
-				firstCard.classList.remove('open')
-	 			firstCard.classList.remove('show')
-	 			secondCard.classList.remove('open')
-	 			secondCard.classList.remove('show')
-				}, 500)
+			const tossCards = () => {
+				return new Promise((res, rej) => {
+					setTimeout(() => {
+						firstCard.classList.add('no-match')
+						secondCard.classList.add('no-match')
+						firstCard.classList.add('toss')
+						secondCard.classList.add('toss')
+
+						firstCard.classList.remove('toss')
+						secondCard.classList.remove('toss')
+						firstCard.classList.remove('open')
+						secondCard.classList.remove('open')
+			 			firstCard.classList.remove('show')
+			 			secondCard.classList.remove('show')
+			 			res()
+					}, 200)
+
+				})
+			}
+
+			tossCards().then(() => {
+				setTimeout(() => {
+					firstCard.classList.remove('no-match')
+					secondCard.classList.remove('no-match')
+				}, 1000)
+			})
 		}
 
 		openCards = []
