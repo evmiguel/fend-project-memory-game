@@ -112,15 +112,15 @@ let restartElement = document.getElementById('restart')
 let timerElement = document.getElementById('timer')
 
 
-let openCards = []
-let moves = seconds = minutes = hours = 0
+let cards = openCards = []
+let moves = correctMatches = seconds = minutes = hours = 0
 let firstClick = false
-let correctMatches
 let t
 
 // HELPER FUNCTIONS
 
 function resetGame() {
+	// Reset moves, matches, and open cards
 	moves = correctMatches = 0
 	movesElement.textContent = movesElement
 	openCards = []
@@ -131,14 +131,14 @@ function resetGame() {
 	}
 
 	// Reset timer
-	clearTimeout(t)
-	timerElement.textContent = "00:00:00"
+	clearTimer()
+	firstClick = false
 
 	setUpBoard()
 }
 
 function setUpBoard() {
-	const cards = shuffle(generateListOfCards())
+	cards = shuffle(generateListOfCards())
 	cards.map(card => {
 		let cardElement = document.createElement('li')
 		cardElement.classList.add('card')
@@ -148,7 +148,6 @@ function setUpBoard() {
 	})
 
 	movesElement.textContent = moves
-	correctMatches = cards.length
 }
 
 
@@ -170,6 +169,11 @@ function add() {
 
 function timer() {
     t = setTimeout(add, 1000);
+}
+
+function clearTimer() {
+	clearTimeout(t)
+	timerElement.textContent = "00:00:00"
 }
 
 // EVENT LISTENERS
@@ -222,6 +226,12 @@ deckElement.addEventListener('click', (e) => {
 
 		openCards = []
 		movesElement.textContent = ++moves
+	}
+
+	if (correctMatches > 0 && correctMatches === cards.length) {
+		// TODO: make a modal
+		alert("Game won!")
+		clearTimer()
 	}
 
 })
