@@ -5,6 +5,12 @@
 
 	All code in this file, except the shuffle function,
 	has been written by the author.
+
+	TODO:
+		- add css animation
+		- make game won modal
+		- responsiveness
+		- fix timing bugs
 */
 
 /**
@@ -141,6 +147,7 @@ function resetGame() {
 
 function setUpBoard() {
 	cards = shuffle(generateListOfCards())
+	cards = shuffle(cards)
 	cards.map(card => {
 		let cardElement = document.createElement('li')
 		cardElement.classList.add('card')
@@ -154,14 +161,25 @@ function setUpBoard() {
 }
 
 function setUpStars() {
-	[...Array(starsStart).keys()].map(i => {
+	function createStarChildNode () {
 		let starElement = document.createElement("li")
 		let starIcon = document.createElement('i')
 		starIcon.classList.add('fa')
 		starIcon.classList.add('fa-star')
 		starElement.appendChild(starIcon)
 		starsElement.appendChild(starElement)
-	})
+	}
+
+	if (starsElement.childNodes.length < 3 ) {
+		while (starsElement.childNodes.length < 3){
+			createStarChildNode()
+		}
+	} else if (starsElement.childNodes.length === 0){
+		[...Array(starsStart).keys()].map(i => {
+			createStarChildNode()
+		})
+	}
+
 }
 
 function removeStar() {
@@ -254,7 +272,7 @@ deckElement.addEventListener('click', (e) => {
 
 	if (correctMatches > 0 && correctMatches === cards.length) {
 		// TODO: make a modal
-		alert("Game won!")
+		alert(`Game won in ${timerElement.textContent}`)
 		clearTimer()
 	}
 
