@@ -130,6 +130,10 @@ h1 {
 
 @keyframes toss {
     0% {
+        transform: rotate(2deg)
+    }
+
+    25% {
         transform: rotate(5deg) translate(.55em)
     }
 
@@ -191,7 +195,7 @@ MODAL STYLES
 */
 
 .modal {
-    display: none;
+    /*display: none;*/
     position: fixed;
     z-index: 1;
     left: 0;
@@ -211,10 +215,27 @@ MODAL STYLES
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17)
 }
 
+.modal-text {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
 .closeBtn {
     color: #ccc;
     float: right;
     font-size: 30px;
+}
+
+.playAgain {
+    transform: translate(43%);
+}
+
+.playAgainBtn {
+    padding: 1em 2em;
+    border: 0;
+    background: #02ccba;
+    color: #fff;
+    cursor: pointer;
 }
 
 .closeBtn:hover, .closeBtn:focus {

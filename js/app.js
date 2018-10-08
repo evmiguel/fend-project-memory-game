@@ -119,6 +119,7 @@ let starsElement = document.getElementById('stars')
 let modalElement = document.getElementById('simpleModal')
 let modalTextElement = document.getElementById('modalText')
 let closeBtnElement = document.getElementsByClassName('closeBtn')[0]
+let playAgainButton = document.getElementsByClassName('playAgainBtn')[0]
 
 
 let cards = openCards = []
@@ -314,6 +315,12 @@ window.addEventListener('click', (e) => {
 	if (e.target === modalElement){
 		modalElement.style.display = 'none'
 	}
+})
+
+// Play again handling
+playAgainButton.addEventListener('click', () => {
+	modalElement.style.display = 'none'
+	resetGame()
 })
 
 
