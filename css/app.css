@@ -88,7 +88,7 @@ h1 {
 }
 
 .deck .card.pulse {
-    animation: pulse 1.5s;
+    animation: pulse .7s;
 }
 
 @keyframes flip {
@@ -182,4 +182,48 @@ h1 {
 
 .score-panel .timer {
     margin: 0px 0px 0px 0px;
+}
+
+/**
+
+MODAL STYLES
+
+*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    animation: modalopen 2s;
+}
+
+.modal-content {
+    background-color: #f4f4f4;
+    margin: 20% auto;
+    padding: 20px;
+    width: 50%;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17)
+}
+
+.closeBtn {
+    color: #ccc;
+    float: right;
+    font-size: 30px;
+}
+
+.closeBtn:hover, .closeBtn:focus {
+    color #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes modalopen {
+    from { opacity: 0 }
+    to { opacity: 1 }
 }

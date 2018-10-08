@@ -7,8 +7,7 @@
 	has been written by the author.
 
 	TODO:
-		- add css animation
-		- make game won modal
+		- prettify game won modal
 		- responsiveness
 		- fix timing bugs
 */
@@ -117,6 +116,9 @@ let movesElement = document.getElementById('moves')
 let restartElement = document.getElementById('restart')
 let timerElement = document.getElementById('timer')
 let starsElement = document.getElementById('stars')
+let modalElement = document.getElementById('simpleModal')
+let modalTextElement = document.getElementById('modalText')
+let closeBtnElement = document.getElementsByClassName('closeBtn')[0]
 
 
 let cards = openCards = []
@@ -294,11 +296,24 @@ deckElement.addEventListener('click', (e) => {
 	}
 
 	if (correctMatches > 0 && correctMatches === cards.length) {
-		// TODO: make a modal
-		alert(`Game won in ${timerElement.textContent}`)
+		modalElement.style.display = 'block'
+		modalTextElement.textContent = `Game won in ${timerElement.textContent} with ${moves} moves and ${starsElement.childNodes.length} star`
+		//alert(`Game won in ${timerElement.textContent}`)
 		clearTimer()
 	}
 
+})
+
+// Close game won modal
+closeBtnElement.addEventListener('click', () => {
+	modalElement.style.display = 'none'
+})
+
+// Close modal on outside click
+window.addEventListener('click', (e) => {
+	if (e.target === modalElement){
+		modalElement.style.display = 'none'
+	}
 })
 
 
