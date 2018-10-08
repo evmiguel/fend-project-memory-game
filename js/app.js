@@ -238,8 +238,8 @@ deckElement.addEventListener('click', (e) => {
 	if (cardElement.nodeName === 'LI' && openCards.length < 2 &&
 			!cardElement.classList.contains('show') &&
 			!cardElement.classList.contains('open')) {
-	cardElement.classList.add('show')
 	cardElement.classList.add('open')
+	cardElement.classList.add('show')
 	openCards.push(cardElement)
 	}
 

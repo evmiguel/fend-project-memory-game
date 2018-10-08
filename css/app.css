@@ -66,9 +66,9 @@ h1 {
 }
 
 .deck .card.open {
-    transform: rotateY(0);
     background: #02b3e4;
     cursor: default;
+    animation: flip .4s;
 }
 
 .deck .card.show {
@@ -84,11 +84,21 @@ h1 {
 .deck .card.no-match {
     font-size: 33px;
     background: #e25a61;
-    animation: toss 3s;
+    animation: toss .4s;
 }
 
 .deck .card.pulse {
     animation: pulse 1.5s;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateY(180deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 @keyframes pulse {
