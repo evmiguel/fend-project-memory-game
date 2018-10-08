@@ -195,7 +195,7 @@ MODAL STYLES
 */
 
 .modal {
-    /*display: none;*/
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -248,3 +248,15 @@ MODAL STYLES
     from { opacity: 0 }
     to { opacity: 1 }
 }
+
+
+
+/*TODO: Media queries*/
+
+/* smallest window
+
+.modal-title {
+    font-size: 1em;
+}
+
+*/
