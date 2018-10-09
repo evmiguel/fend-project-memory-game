@@ -4,15 +4,17 @@
 
 
 	All code in this file, except the shuffle function,
-	has been written by the author.
+	has been written by the author. This file details
+	the Memory Game behavior.
 
 */
 
-/**
+/**---------------------------------------------------
 
 CONSTANTS
 
-*/
+
+------------------------------------------------------*/
 // Card types
 const ANCHOR = 'anchor'
 const BICYCLE = 'bicycle'
@@ -37,15 +39,44 @@ const cardCssTypes = {
 	[PLANE]: 'fa-paper-plane-o'
 }
 
-/**
+// ELEMENTS TO MANIPULATE
+let deckElement = document.getElementById('deck')
+let movesElement = document.getElementById('moves')
+let restartElement = document.getElementById('restart')
+let timerElement = document.getElementById('timer')
+let starsElement = document.getElementById('stars')
+let modalElement = document.getElementById('simpleModal')
+let modalTextElement = document.getElementById('modalText')
+let closeBtnElement = document.getElementsByClassName('closeBtn')[0]
+let playAgainButton = document.getElementsByClassName('playAgainBtn')[0]
+
+
+let cards = openCards = []
+let moves = correctMatches = seconds = minutes = hours = 0
+let starsStart = maxStars = 3
+let firstClick = false
+let t
+
+
+/**------------------------------------------------------
 
 CLASSES
 
-*/
+------------------------------------------------------*/
+
+/*
+* Memory card class. Creates a Memory Card object
+*	of a certain type and CSS class
+*
+* Constructor args:
+*	type: string. type of card.
+**/
 class MemoryCard {
 	constructor(type) {
 		this.type = type
 		this.cssStyle = cardCssTypes[type]
+
+		// Returns the HTML of a card
 		this.toHTML = () => {
 			let iconElement = document.createElement('i')
 	 		iconElement.setAttribute('type', this.type)
@@ -56,6 +87,13 @@ class MemoryCard {
 	}
 }
 
+/**------------------------------------------------------
+
+HELPER FUNCTiONS
+
+------------------------------------------------------**/
+
+/* Creates a list of cards that are NOT shuffled. **/
 function generateListOfCards() {
 	let cards = []
 	CARD_TYPES.map(type => {
@@ -65,13 +103,9 @@ function generateListOfCards() {
 	return cards
 }
 
-
 /*
- * Create a list that holds all of your cards
- */
-
-
-/*
+ *	DIRECTIONS FROM UDACITY:
+ *
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
@@ -93,39 +127,7 @@ function shuffle(array) {
     return array;
 }
 
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-// ELEMENTS TO MANIPULATE
-let deckElement = document.getElementById('deck')
-let movesElement = document.getElementById('moves')
-let restartElement = document.getElementById('restart')
-let timerElement = document.getElementById('timer')
-let starsElement = document.getElementById('stars')
-let modalElement = document.getElementById('simpleModal')
-let modalTextElement = document.getElementById('modalText')
-let closeBtnElement = document.getElementsByClassName('closeBtn')[0]
-let playAgainButton = document.getElementsByClassName('playAgainBtn')[0]
-
-
-let cards = openCards = []
-let moves = correctMatches = seconds = minutes = hours = 0
-let starsStart = 3
-let firstClick = false
-let t
-
-// HELPER FUNCTIONS
-
+/* Reset the game. **/
 function resetGame() {
 	// Reset moves, matches, and open cards
 	moves = correctMatches = 0
@@ -144,9 +146,13 @@ function resetGame() {
 	setUpBoard()
 }
 
+/* Set up the board in an initial state **/
 function setUpBoard() {
+	// Make a list of cards and shuffle them twice.
 	cards = shuffle(generateListOfCards())
 	cards = shuffle(cards)
+
+	// Add each card's HTML to the deck element
 	cards.map(card => {
 		let cardElement = document.createElement('li')
 		cardElement.classList.add('card')
@@ -155,10 +161,14 @@ function setUpBoard() {
 		deckElement.appendChild(cardElement)
 	})
 
+	// Create a default number of stars
 	setUpStars()
+
+	// Set the number of initial moves. Should be zero.
 	movesElement.textContent = moves
 }
 
+/* Set up the number of stars on the board **/
 function setUpStars() {
 	function createStarChildNode () {
 		let starElement = document.createElement("li")
@@ -169,10 +179,13 @@ function setUpStars() {
 		starsElement.appendChild(starElement)
 	}
 
-	if (starsElement.childNodes.length < 3 ) {
-		while (starsElement.childNodes.length < 3){
+	// If a game is reset, create the necessary number of stars
+	// until the number of max stars
+	if (starsElement.childNodes.length < maxStars ) {
+		while (starsElement.childNodes.length < maxStars){
 			createStarChildNode()
 		}
+	// If the stars haven't been initialized yet, initialize all of them.
 	} else if (starsElement.childNodes.length === 0){
 		[...Array(starsStart).keys()].map(i => {
 			createStarChildNode()
@@ -181,6 +194,7 @@ function setUpStars() {
 
 }
 
+/* Removes a star for the list of stars **/
 function removeStar() {
 	let numStars = starsElement.childNodes.length
 	if (numStars > 0) {
@@ -189,7 +203,10 @@ function removeStar() {
 }
 
 
-// Add and time function from: https://jsfiddle.net/Daniel_Hug/pvk6p/
+/*
+ * Add and time function from: https://jsfiddle.net/Daniel_Hug/pvk6p/.
+ * Set the timer text.
+**/
 function add() {
     seconds++;
     if (seconds >= 60) {
@@ -205,48 +222,62 @@ function add() {
     timer();
 }
 
+/* Runs a timer, which is just a setTimeout every second **/
 function timer() {
     t = setTimeout(add, 1000);
 }
 
+/* Clears the timer **/
 function clearTimer() {
 	clearTimeout(t)
 	timerElement.textContent = "00:00:00"
 }
 
-// EVENT LISTENERS
+/*------------------------------------------------------
 
-restartElement.addEventListener('click', (e) => {
-	e.preventDefault()
-	resetGame()
-})
+EVENT LISTENERS
 
+------------------------------------------------------**/
+
+/*
+ * DIRECTIONS FROM UDACITY:
+ *
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 deckElement.addEventListener('click', (e) => {
-	e.preventDefault()
+	//------------------------------------------------------------------------------------------
+	// INNER FUNCTIONS
 
-	// Set timer on fist click
-	if (!firstClick) {
-		timer()
-		firstClick = true
+	const setupTimer = () => {
+		// Set timer on fist click
+		if (!firstClick) {
+			timer()
+			firstClick = true
+		}
 	}
 
-	// Look at card element
-	let cardElement = e.target
-
-	// Make sure that a list element is clicked and add to the openCards
+	const addToOpenCards = (cardElement) => {
+	// Make sure that a list element is clicked and add to the openCards list
 	if (cardElement.nodeName === 'LI' && openCards.length < 2 &&
-			!cardElement.classList.contains('show') &&
-			!cardElement.classList.contains('open')) {
-	cardElement.classList.add('open')
-	cardElement.classList.add('show')
-	openCards.push(cardElement)
+		!cardElement.classList.contains('show') &&
+		!cardElement.classList.contains('open')) {
+
+			cardElement.classList.add('open')
+			cardElement.classList.add('show')
+			openCards.push(cardElement)
+
+		}
 	}
 
-	// Compare the cards
-	if (openCards.length == 2) {
-		const firstCard = openCards[0]
-		const secondCard = openCards[1]
-
+	const compareCards = (firstCard, secondCard) => {
+		// Cards match!
 		if (firstCard.firstChild.getAttribute('type') === secondCard.firstChild.getAttribute('type')) {
 			correctMatches += openCards.length
 			firstCard.classList.add('pulse')
@@ -256,6 +287,8 @@ deckElement.addEventListener('click', (e) => {
 			firstCard.classList.remove('open')
 			secondCard.classList.remove('open')
 			secondCard.classList.add('match')
+
+		// Cards don't match!
 		} else {
 			const tossCards = () => {
 				return new Promise((res, rej) => {
@@ -285,40 +318,78 @@ deckElement.addEventListener('click', (e) => {
 			})
 		}
 
+		// Clear out the open cards, regardless of a match or not.
 		openCards = []
+
 		movesElement.textContent = ++moves
+
+		// Remove a star every 8 moves
 		if (moves % 8 === 0 ){
 			removeStar()
 		}
 	}
 
-	if (correctMatches > 0 && correctMatches === cards.length) {
+	const winGame = () => {
 		modalElement.style.display = 'block'
 		modalTextElement.textContent = `Game won in ${timerElement.textContent} with ${moves} moves and ${starsElement.childNodes.length} star`
 		clearTimer()
 	}
+	//------------------------------------------------------------------------------------------
+
+
+	// Actual click handling
+	e.preventDefault()
+	setupTimer()
+
+	// Look at card element
+	let cardElement = e.target
+
+	addToOpenCards(cardElement)
+
+	// Compare the cards if there are two cards to compare
+	if (openCards.length == 2) {
+		compareCards(openCards[0], openCards[1])
+	}
+
+	// Win the game if all pairs have been matched
+	if (correctMatches > 0 && correctMatches === cards.length) {
+		winGame()
+	}
 
 })
 
-// Close game won modal
+/* Restart game if user hit's the reset icon **/
+restartElement.addEventListener('click', (e) => {
+	e.preventDefault()
+	resetGame()
+})
+
+
+/* Close game won modal **/
 closeBtnElement.addEventListener('click', () => {
 	modalElement.style.display = 'none'
 })
 
-// Close modal on outside click
+/* Close modal on outside click **/
 window.addEventListener('click', (e) => {
 	if (e.target === modalElement){
 		modalElement.style.display = 'none'
 	}
 })
 
-// Play again handling
+/* Reset game if "Play Again" button pushed **/
 playAgainButton.addEventListener('click', () => {
 	modalElement.style.display = 'none'
 	resetGame()
 })
 
 
+
+/*------------------------------------------------------
+
+MAIN
+
+------------------------------------------------------**/
 setUpBoard()
 
 

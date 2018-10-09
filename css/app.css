@@ -91,6 +91,11 @@ h1 {
     animation: pulse .7s;
 }
 
+/*
+
+Animation keyframes for cards
+
+**/
 @keyframes flip {
     0% {
         transform: rotateY(180deg);
@@ -244,6 +249,7 @@ MODAL STYLES
     cursor: pointer;
 }
 
+/* Modal animation keyframe **/
 @keyframes modalopen {
     from { opacity: 0 }
     to { opacity: 1 }
@@ -251,12 +257,11 @@ MODAL STYLES
 
 
 
-/*TODO: Media queries*/
+/*
 
-/* smallest window
+Media queries for responsiveness
 
-*/
-
+**/
 @media screen and (max-width: 500px) {
     .deck-panel {
         transform: scale(.5, .5) translate(0, -50%);
