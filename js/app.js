@@ -197,7 +197,7 @@ function setUpStars() {
 /* Removes a star for the list of stars **/
 function removeStar() {
 	let numStars = starsElement.childNodes.length
-	if (numStars > 0) {
+	if (numStars > 1) {
 		starsElement.removeChild(starsElement.firstChild)
 	}
 }
