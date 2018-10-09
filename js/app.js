@@ -6,10 +6,6 @@
 	All code in this file, except the shuffle function,
 	has been written by the author.
 
-	TODO:
-		- prettify game won modal
-		- responsiveness
-		- fix timing bugs
 */
 
 /**
@@ -276,7 +272,7 @@ deckElement.addEventListener('click', (e) => {
 			 			firstCard.classList.remove('show')
 			 			secondCard.classList.remove('show')
 			 			res()
-					}, 200)
+					}, 100)
 
 				})
 			}
@@ -285,7 +281,7 @@ deckElement.addEventListener('click', (e) => {
 				setTimeout(() => {
 					firstCard.classList.remove('no-match')
 					secondCard.classList.remove('no-match')
-				}, 1000)
+				}, 300)
 			})
 		}
 
@@ -299,7 +295,6 @@ deckElement.addEventListener('click', (e) => {
 	if (correctMatches > 0 && correctMatches === cards.length) {
 		modalElement.style.display = 'block'
 		modalTextElement.textContent = `Game won in ${timerElement.textContent} with ${moves} moves and ${starsElement.childNodes.length} star`
-		//alert(`Game won in ${timerElement.textContent}`)
 		clearTimer()
 	}
 

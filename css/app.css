@@ -255,8 +255,36 @@ MODAL STYLES
 
 /* smallest window
 
-.modal-title {
-    font-size: 1em;
+*/
+
+@media screen and (max-width: 500px) {
+    .deck-panel {
+        transform: scale(.5, .5) translate(0, -50%);
+    }
+
+    .modal-title {
+        font-size: 1em;
+    }
+
+    .title {
+        margin-bottom: 0px;
+    }
+
+    .playAgain {
+        transform: translate(15%);
+    }
 }
 
-*/
+@media screen and (min-width: 501px) and (max-width: 700px) {
+    .deck-panel {
+        transform: scale(.7, .7) translate(0,-20%);
+    }
+
+    .title {
+        margin-bottom: 10px;
+    }
+
+    .playAgain {
+        transform: translate(30%);
+    }
+}
